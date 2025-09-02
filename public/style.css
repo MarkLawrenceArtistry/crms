@@ -24,6 +24,13 @@ textarea {
     font-size: 30px;
 }
 
+body {
+    background-image: url('assets/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 .app-container {
     display: flex;
 }
@@ -398,7 +405,6 @@ textarea {
     display: flex;
     height: 80vh;
     width: 60vw;
-    border: 1px solid #4c48ff;
 }
 
 .login-card .divider {
@@ -418,6 +424,12 @@ textarea {
     color: white;
     display: flex;
     flex-direction: column;
+    border-radius: 10px 0 0 10px;
+}
+
+.divider.form {
+    background-color: #fff;
+    border-radius: 0 10px 10px 0;
 }
 
 .divider.welcome div {
@@ -508,6 +520,14 @@ textarea {
 
     #hero-img {
         height: 200px;
+    }
+
+    .divider.welcome {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .divider.form {
+        border-radius: 0 0 10px 10px;
     }
     
     @media (max-width: 768px) {
