@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi-precision CRMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/hp-logo.png" alt="Hi-Precision Logo" class="sidebar-logo">
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-group-title">Menu</span>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="patients.html" class="nav-link active">Patients</a>
+                    <a href="inventory.html" class="nav-link">Inventory</a>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-group-title">System</span>
+                    <a href="#" class="nav-link">Settings</a>
+                    <a href="index.html" class="nav-link" id="logout-btn">Logout</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <button class="hamburger-btn" id="hamburger-btn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <h1 class="main-title">Patient Records</h1>
+                <button id="add-patient-btn" class="btn btn-primary">Add New Patient</button>
+            </header>
+
+            <!-- VIEW DATA VIA TABLE -->
+            <section class="content-card">
+                <div class="controls-container">
+                    <div class="search-bar">
+                        <form id="search-patient-form">
+                            <input type="text" placeholder="Search..." id="search-patient-input">
+                        </form>
+                    </div>
+                </div>
+                <div id="patient-list-container" class="table-container">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ADD DATA VIA MODAL -->
+    <div id="add-patient-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-add-patient-modal">&times;</span>
+            <h2>Patient Management</h2>
+            <form id="add-patient-form" class="modal-form">
+                <h3>Add New Patient</h3>
+                <div>
+                    <label class="small-lbl">Full Name</label>
+                    <input type="text" id="patient-name" placeholder="Full Name" required>
+                </div>
+                <div>
+                    <label class="small-lbl">Date of Birth</label>
+                    <input type="date" id="patient-dob" required>
+                </div>
+                <div>
+                    <label class="small-lbl">Address</label>
+                    <textarea id="patient-address" placeholder="Address" rows="5" cols="30"></textarea>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- UPDATE DATA VIA MODAL -->
+    <div id="update-patient-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-upd-patient-modal">&times;</span>
+            <h2>Patient Management</h2>
+            <form id="update-patient-form" class="modal-form">
+                <h3>Edit Patient</h3>
+                <div>
+                    <label class="small-lbl">Full Name</label>
+                    <input type="text" id="upd-patient-name" placeholder="Full Name" required>
+                </div>
+                <div>
+                    <label class="small-lbl">Date of Birth</label>
+                    <input type="date" id="upd-patient-dob" required>
+                </div>
+                <div>
+                    <label class="small-lbl">Address</label>
+                    <textarea id="upd-patient-address" placeholder="Address" rows="5" cols="30"></textarea>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIEW DATA VIA MODAL -->
+    <div id="consultations-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2 id="consultation-header" class="modal-title">Consultations for...</h2>
+                <span class="close-btn" id="close-consultations-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="consultation-wrapper">
+                    
+                    <div class="consultation-form-section">
+                        <h3>Add New Consultation</h3>
+                        <form id="add-consultation-form" class="modal-form">
+                            <div>
+                                <label class="small-lbl">Date</label>
+                                <input type="date" id="consultation-date" required>
+                            </div>
+                            <div>
+                                <label class="small-lbl">Complaint</label>
+                                <textarea id="consultation-complaint" placeholder="Patient's chief complaint..." rows="5" cols="30" required></textarea>
+                            </div>
+                            <div>
+                                <label class="small-lbl">Diagnosis</label>
+                                <input type="text" id="consultation-diagnosis" placeholder="Official diagnosis">
+                            </div>
+                            <div>
+                                <label class="small-lbl">Treatment</label>
+                                <input type="text" id="consultation-treatment" placeholder="Prescription or treatment plan">
+                            </div>
+                            <button type="submit">Add Consultation</button>
+                        </form>
+                    </div>
+
+                    <div class="consultation-list-section">
+                        <h3>Patient History</h3>
+                        <div id="consultations-list">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>

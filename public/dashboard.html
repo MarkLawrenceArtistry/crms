@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi-precision CRMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/hp-logo.png" alt="Hi-Precision Logo" class="sidebar-logo">
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-group-title">Menu</span>
+                    <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                    <a href="patients.html" class="nav-link">Patients</a>
+                    <a href="inventory.html" class="nav-link">Inventory</a>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-group-title">System</span>
+                    <a href="#" class="nav-link">Settings</a>
+                    <a href="index.html" class="nav-link" id="logout-btn">Logout</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <button class="hamburger-btn" id="hamburger-btn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <h1 class="main-title">Dashboard</h1>
+                <button id="add-patient-btn" class="btn btn-primary">Add New Patient</button>
+            </header>
+
+            <!-- VIEW DATA VIA TABLE -->
+            <section class="content-card">
+                <h1>Welcome!</h1>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
