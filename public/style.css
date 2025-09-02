@@ -398,7 +398,7 @@ textarea {
     display: flex;
     height: 80vh;
     width: 60vw;
-    border: 1px solid #4960fe;
+    border: 1px solid #4c48ff;
 }
 
 .login-card .divider {
@@ -414,8 +414,14 @@ textarea {
 }
 
 .divider.welcome {
-    background-color: #4960fe;
+    background-color: #4c48ff;
     color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.divider.welcome div {
+    margin: 20px;
 }
 
 #login-form input[type="text"],
@@ -424,6 +430,9 @@ textarea {
     padding: 10px;
     width: 100%;
     margin-top: 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #f1efef;
 }
 
 .login-form-div {
@@ -434,6 +443,15 @@ textarea {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin: 20px;
+}
+
+#login-form button {
+    background-color: #4c48ff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
 }
 
 #search-patient-input, 
@@ -446,7 +464,9 @@ textarea {
     border-radius: 5px;
 }
 
-
+#hero-img {
+    height: 300px;
+}
 
 
 
@@ -480,7 +500,16 @@ textarea {
         padding-left: 0;
         overflow-y: auto;
     }
-   
+    
+    .login-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #hero-img {
+        height: 200px;
+    }
+    
     @media (max-width: 768px) {
         body.sidebar-open::before {
             content: '';
@@ -512,6 +541,9 @@ textarea {
         .modal-content {
             margin: 5% auto;
             width: 95%;
+        }
+        #hero-img {
+            height: 150px;
         }
     }
 }
