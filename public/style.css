@@ -19,6 +19,11 @@ textarea {
     resize: none;
 }
 
+.main-title {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+}
+
 .app-container {
     display: flex;
 }
@@ -106,6 +111,7 @@ textarea {
     background-color: #fff;
     border-bottom: 1px solid #eee;
     margin: 10px;
+    border-radius: 5px;
 }
 /* ***************************************** */
 /*                   MODAL                   */
@@ -153,12 +159,20 @@ textarea {
 .btn {
     padding: 10px 20px;
     border: none;
-    border-radius: var(--border-radius-md);
+    border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.2s;
 }
+
+.btn-primary {
+    background-color: #4c48ff;
+    font-weight: 300;
+    color: #fff;
+}
+.btn-primary:hover { background-color: #4947f0; }
+.btn-primary:active { background-color: #4643de; }
 
 .close-btn {
     position: absolute;
@@ -330,14 +344,14 @@ textarea {
 }
 
 #consultations-list::-webkit-scrollbar-track {
-    background: var(--light-gray);
+    background: lightgray;
     border-radius: 10px;
 }
 
 #consultations-list::-webkit-scrollbar-thumb {
     background-color: #c1c1c1;
     border-radius: 10px;
-    border: 2px solid var(--light-gray);
+    border: 2px solid lightgray;
 }
 
 #consultations-list::-webkit-scrollbar-thumb:hover {
@@ -428,7 +442,7 @@ textarea {
     width: 100%;
     margin-top: 0;
     border: none;
-    background-color: #dcdbdb;
+    background-color: #f1efef;
     border-radius: 5px;
 }
 
