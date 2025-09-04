@@ -406,9 +406,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LOGOUT BUTTON
     if(logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
+        logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault()
-            if(confirm('Are you sure you want to logout?')) {
+            if(await showConfirmationModal('Are you sure you want to logout?', confirmationModal)) {
                 sessionStorage.clear()
                 window.location.href = 'index.html'
             }
