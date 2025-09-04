@@ -1,15 +1,20 @@
 # STEPS IN CREATING FULLSTACK
 
+- npm init -y
+- npm install express cors sqlite3
+
 # BACKEND
 
 ## Database Connection
 1. create database.js
-2. require sqlite3, and create variable for database file name (for ex. myDB.db)
+2. require sqlite3
+2.5. create variable for database file name (for ex. myDB.db)
 3. create new instance of db by creating a variable and storing it in `new sqlite3.Database(database, (err) => {})`
     3.5 validate if there is an error, if there is log it
-4. create new function for creating tables
-5. wrap everything in db.serialize(() => {})
-6. create the query for CREATING `'CREATE TABLE myTable'`
+4. create a variable 'initDB', store arrow function for creating tables
+5. inside is db.serialize(() => {})
+6. create the query for CREATING `'CREATE TABLE IF NOT EXISTS myTable'`
+    6.5 search for sqlite3 syntax like INTEGER etc
 7. create db.run(query, callback)
 8. callback checks if there is an error or not (err) => {}
 9. export the db variable and initDB function

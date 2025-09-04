@@ -142,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPatients(patients, patientListContainer)
         } catch(err) {
             console.error(err)
-            alert(err.message)
         }
     }
 
@@ -152,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderMedicines(medicines, medicineListContainer)
         } catch(err) {
             console.error(err)
-            alert(err.message)
         }
     }
 
@@ -175,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadPatients();
             } catch (err) {
                 console.error(err);
-                alert(err.message);
             }
         })
     }
@@ -196,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         loadPatients();
                     } catch (err) {
                         console.error(err);
-                        alert(err.message);
                     }
                 }
             }
@@ -208,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     updatePatientModal.style.display = 'flex'
                 } catch (err) {
                     console.error(err);
-                    alert(err.message);
                 }
             }
 
@@ -223,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     consultationUI.showConsultationsModal(consultationsModal, consultationHeader, patientName);
                 } catch (err) {
                     console.error(err);
-                    alert(err.message);
                 }
             }
         });
@@ -262,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadPatients();
             } catch (err) {
                 console.error(err);
-                alert(err.message);
             }
         })
     }
@@ -272,10 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(addConsultationForm) {
         addConsultationForm.addEventListener('submit', async (event) => {
             event.preventDefault()
-
-            if(!currentPatientId) {
-                return alert('Please select a patient first!')
-            }
 
             const consultationData = {
                 complaint: document.querySelector('#consultation-complaint').value,
@@ -292,7 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 consultationUI.renderConsultations(consultations, consultationList);
             } catch (err) {
                 console.error(err);
-                alert(err.message);
             }
         })
     }
@@ -316,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadMedicines();
             } catch (err) {
                 console.error(err);
-                alert(err.message);
             }
         })
     }
@@ -336,7 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         loadMedicines();
                     } catch (err) {
                         console.error(err);
-                        alert(err.message);
                     }
                 }
             }
@@ -350,7 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateMedicineModal.style.display = 'flex'
                 } catch (err) {
                     console.error(err);
-                    alert(err.message);
                 }
             }
         });
@@ -371,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadMedicines();
             } catch (err) {
                 console.error(err);
-                alert(err.message);
             }
         })
     }
@@ -410,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'dashboard.html'
             } catch(err) {
                 console.error(err)
-                alert(err.message)
             }
         })
     }
@@ -450,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // GATEKEEPER
     if(!window.location.pathname.endsWith("index.html") && !sessionStorage.getItem('isLoggedIn')){
-        alert('Session does not exist. Redirecting..')
+        // alert('Session does not exist. Redirecting..')
         window.location.href = 'index.html'
     }
 
