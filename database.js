@@ -1,15 +1,39 @@
 const sqlite3 = require('sqlite3').verbose()
-const DBSOURCE = './clinic.db'
+const path = require('path')
+const { app } = require('electron')
+const fs = require('fs')
+let dbPath
+let db
 
-// FOR CREATING DB
-const db = new sqlite3.Database(DBSOURCE, (err) => {
-    if(err) {
-        console.log(err.message)
-        throw err
-    } else {
-        console.log("CONNECTED TO THE DATABASE...")
+// FOR FETCHING DB
+try {
+    // PRODUCTION
+    const { app } = require('electron')
+    dbPath = path.join(app.getPath('userData'), 'clinic.db')
+
+    const dbDir = path.dirname(dbPath)
+    if(!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir, { recursive: true })
     }
-})
+
+} catch(err) {
+    // DEVELOPMENT
+    console.log('FETCHING LOCAL DATABASE')
+    dbPath = path.join(__dirname, 'clinic.db')
+}
+
+// FOR CONNECTING TO DB
+const connectDB = () => {
+    return new sqlite3.Database(dbPath, (err) => {
+        if(err) {
+            console.err(err.message)
+        } else {
+            console.log("CONNECTED TO THE DATABASE")
+        }
+    })
+}
+
+db = connectDB()
 
 // FOR CREATING TABLES IN DB
 const initDB = () => {
