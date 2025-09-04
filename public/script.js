@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMedicineId = null; // for displaying medicine name
 
 
+    // MODALS
+    const confirmationModal = document.querySelector('#confirmation-modal')
+    const closeConfirmationModal = document.querySelector('#close-confirmation-modal')
+    const confirmationMessageEl = document.querySelector('#confirmation-question')
+
     // PATIENTS
     const addPatientForm = document.querySelector('#add-patient-form');
     const addPatientModal = document.querySelector('#add-patient-modal');
@@ -187,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // DELETE
             if (target.classList.contains('delete-btn')) {
-                if (window.confirm('Are you sure you want to delete this patient?')) {
+                if (await showConfirmationModal('Are you sure you want to delete this patient?', confirmationModal)) {
                     try {
                         await patientApi.deletePatient(patientId);
                         loadPatients();
@@ -317,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // DELETE
             if (target.classList.contains('delete-btn')) {
-                if (window.confirm('Are you sure you want to delete this medicine?')) {
+                if (await showConfirmationModal('Are you sure you want to delete this medicine?', confirmationModal)) {
                     try {
                         await medicineApi.deleteMedicine(medicineId);
                         loadMedicines();
@@ -411,8 +416,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // CONFIRMATION MODAL
+    const showConfirmationModal = (message, modal) => {
+        return new Promise((resolve) => {
+            confirmationModal.style.display = 'flex'
+            confirmationMessageEl.innerHTML = message
+            modal.addEventListener('click', (e) => {
+                let choice = null
+                const target = e.target
+                
+                if(target.classList.contains('yes-btn')) {
+                    choice = true
+                }
 
+                if(target.classList.contains('cancel-btn')) {
+                    choice = false
+                }
 
+                if(target.classList.contains('close-btn')) {
+                    confirmationModal.style.display = 'none'
+                }
+
+                confirmationModal.style.display = 'none'
+                resolve(choice)
+            })
+        })
+    }
+    // DISPLAY MODAL
 
 
 
