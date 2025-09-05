@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // MODALS
     const confirmationModal = document.querySelector('#confirmation-modal')
     const confirmationMessageEl = document.querySelector('#confirmation-question')
+    const displayModal = document.querySelector('#display-modal')
+    const displayTextEl = document.querySelector('#display-text')
 
     // PATIENTS
     const addPatientForm = document.querySelector('#add-patient-form');
@@ -394,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 await authApi.loginUser(credentials)
+                await showDisplayModal("Welcome back!", displayModal, displayTextEl)
                 sessionStorage.setItem('isLoggedIn', 'true')
                 window.location.href = 'dashboard.html'
             } catch(err) {
@@ -418,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // CONFIRMATION MODAL
     const showConfirmationModal = (message, modal) => {
         return new Promise((resolve) => {
-            confirmationModal.style.display = 'flex'
+            modal.style.display = 'flex'
             confirmationMessageEl.innerHTML = message
             modal.addEventListener('click', (e) => {
                 let choice = null
@@ -426,20 +429,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if(target.classList.contains('yes-btn')) {
                     choice = true
-                    confirmationModal.style.display = 'none'
                 }
 
                 if(target.classList.contains('cancel-btn')) {
                     choice = false
-                    confirmationModal.style.display = 'none'
+                }
+                
+                modal.style.display = 'none'
+                resolve(choice)
+            })
+        })
+    }
+    // DISPLAY MODAL
+    const showDisplayModal = (message, modal, messageEl) => {
+        return new Promise((resolve) => {
+            modal.style.display = 'flex'
+            messageEl.innerHTML = message
+            modal.addEventListener('click', (e) => {
+                let choice = null
+                const target = e.target
+                
+                if(target.classList.contains('ok-btn')) {
+                    choice = true
+                    modal.style.display = 'none'
                 }
                 
                 resolve(choice)
             })
         })
     }
-    // DISPLAY MODAL
-
 
 
 

@@ -13,7 +13,6 @@
     margin: 0;
     box-sizing: border-box;
     font-family: var(--font);
-    bordr: 1px solid red;
 }
 
 textarea {
@@ -168,6 +167,54 @@ body {
     border: none;
     color: white;
 }
+
+
+#confirmation-modal {
+    z-index: 2000;
+    text-align: center;
+}
+
+#confirmation-modal .modal-content, #display-modal .modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 300px;
+}
+
+.display-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+}
+
+.display-image img {
+    height: 150px;
+}
+
+#display-text {
+    width: 100%;
+    text-align: center;
+    font-size: 21px;
+}
+
+.display-buttons {
+    width: 100%;
+}
+
+.display-buttons button {
+    width: 100%;
+    color: white;
+    background-color: #4c48ff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
 /* ***************************************** */
 /*                  BUTTON                   */
 /* ***************************************** */
@@ -495,19 +542,6 @@ body {
     height: 300px;
 }
 
-#confirmation-modal {
-    z-index: 2000;
-    text-align: center;
-}
-
-#confirmation-modal .modal-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 300px;
-}
 
 
 
