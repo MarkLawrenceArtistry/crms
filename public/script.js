@@ -451,6 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(iconLink === null) {
                 imageEl.style.display = 'none'
             } else {
+                imageEl.style.display = 'block'
                 imageEl.src = iconLink
             }
             modal.addEventListener('click', (e) => {
