@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // MODALS
     const confirmationModal = document.querySelector('#confirmation-modal')
-    const closeConfirmationModal = document.querySelector('#close-confirmation-modal')
     const confirmationMessageEl = document.querySelector('#confirmation-question')
 
     // PATIENTS
@@ -431,11 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if(target.classList.contains('cancel-btn')) {
-                    choice = false
-                    confirmationModal.style.display = 'none'
-                }
-
-                if(target.classList.contains('close-btn')) {
                     choice = false
                     confirmationModal.style.display = 'none'
                 }

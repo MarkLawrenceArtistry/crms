@@ -13,7 +13,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: var(--font);
-    border: 1px solid red;
+    bordr: 1px solid red;
 }
 
 textarea {
@@ -172,12 +172,11 @@ body {
 /*                  BUTTON                   */
 /* ***************************************** */
 .btn {
-    padding: 10px 20px;
+    padding: 8px 17px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
-    font-weight: 600;
     transition: all 0.2s;
 }
 
@@ -188,6 +187,11 @@ body {
 }
 .btn-primary:hover { background-color: #4947f0; }
 .btn-primary:active { background-color: #4643de; }
+
+.yes-btn {
+    background-color: #4c48ff;
+    color: white;
+}
 
 .close-btn {
     position: absolute;
@@ -493,6 +497,16 @@ body {
 
 #confirmation-modal {
     z-index: 2000;
+    text-align: center;
+}
+
+#confirmation-modal .modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 300px;
 }
 
 
