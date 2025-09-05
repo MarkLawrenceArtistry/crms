@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmationMessageEl = document.querySelector('#confirmation-question')
     const displayModal = document.querySelector('#display-modal')
     const displayTextEl = document.querySelector('#display-text')
+    const displayImageEl = document.querySelector('#display-image-tag')
 
     // PATIENTS
     const addPatientForm = document.querySelector('#add-patient-form');
@@ -396,10 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 await authApi.loginUser(credentials)
-                await showDisplayModal("Welcome back!", displayModal, displayTextEl)
+                await showDisplayModal("Welcome back!", displayModal, displayTextEl, 'assets/checked.png', displayImageEl)
                 sessionStorage.setItem('isLoggedIn', 'true')
                 window.location.href = 'dashboard.html'
             } catch(err) {
+                await showDisplayModal("Wrong credentials!", displayModal, displayTextEl, null, displayImageEl)
+                loginForm.reset()
                 console.error(err)
             }
         })
@@ -441,10 +444,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
     // DISPLAY MODAL
-    const showDisplayModal = (message, modal, messageEl) => {
+    const showDisplayModal = (message, modal, messageEl, iconLink, imageEl) => {
         return new Promise((resolve) => {
             modal.style.display = 'flex'
             messageEl.innerHTML = message
+            if(iconLink === null) {
+                imageEl.style.display = 'none'
+            } else {
+                imageEl.src = iconLink
+            }
             modal.addEventListener('click', (e) => {
                 let choice = null
                 const target = e.target
