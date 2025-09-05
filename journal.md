@@ -15,9 +15,9 @@
 5. inside is db.serialize(() => {})
 6. create the query for CREATING `'CREATE TABLE IF NOT EXISTS myTable'`
     6.5 search for sqlite3 syntax like INTEGER etc
-7. create db.run(query, callback)
-8. callback checks if there is an error or not (err) => {}
-9. export the db variable and initDB function
+    6.6 FOREIGN KEY (patient_id) REFERENCES patients (id) ON DELETE CASCADE
+7. create db.run(query, (err) => {})
+8. export the db variable and initDB function
 
 ## App Shell
 1. require express
@@ -28,8 +28,8 @@
 6. middlewares: use .json()
 7. middlewares: use cors()
 8. call out initDB function
-9. create app.listen to create server
-10. create app.get for client
+9. create app.listen to create server `console.log(`The port is listening at http://localhost:${PORT} ...`)`
+10. create app.get(req, res) for client
 
 ## Making controller
 1. create controllers folder
@@ -41,7 +41,8 @@
 3. store the columns provided by the client (for ex. 'name', 'age') from req.body
 4. create query for `INSERT FROM table () VALUES (?, ?)` and create params from columns
 5. db.run(query, params, function(err)) kasi need sa `this.lastID`
-6. check if may error if wala return mo 500 tas return mo lang yung nasa req.body kasama ID
+6. check if may error if wala meron return mo 500 tas return mo lang yung nasa req.body kasama ID
+7. module.exports = { createSomething }
 
 ## GET METHOD in Patient Controller
 1. require db instance in the database.js
@@ -51,16 +52,29 @@
 5. db.get(query, params, (err, row) => {})
 6. check if may error, send 500
 7. check if may na fetch na row, send mo yung row, if wala sendan mo ng 404
+8. module.exports
+
+## GET METHOD (all rows) in Patient Controller
+1. require db instance in the database.js
+2. create variable `getAllSomething` (req, res) => {}
+3. create the query `SELECT * FROM table`
+4. db.all(query, [], (err, rows) => {}) lagay [] for convention lang
+5. check if may error, send 500
+6. check if may rows `if(rows)` send mo yung rows
+7. module.exports = { } mo lahat 
+
 
 ## PUT METHOD in Patient Controller
 1. require db instance in the database.js
 2. create variable `updateSomething` (req, res) => {}
 3. store the id from req.params
 4. store the columns provided by the client (for ex. 'name', 'age') from req.body
-5. create query `UPDATE table SET column = COALESCE(?, column) WHERE id = ?` and create params from columns
+5. create query `UPDATE table SET column = COALESCE(?, column) WHERE id = ?`
+5.5. create params variable from columns
 6. db.run(query, params, function(err) {})
 7. check if may error, send 500
 8. check if (this.changes > 0) send status 200, status 404 pag hindi kasi mali yung id nyan
+9. module.exports then lagay route
 
 ## DELETE METHOD in Patient Controller
 1. require db instance in the database.js
@@ -72,28 +86,19 @@
 7. check if may error, send 500
 8. check if (this.changes > 0) send status 200, status 404 pag hindi kasi mali yung id nyan
 
-## GET METHOD (all rows) in Patient Controller
-1. require db instance in the database.js
-2. create variable `getAllSomething` (req, res) => {}
-3. create the query `SELECT * FROM table`
-4. db.all(query, [], (err, rows) => {}) lagay [] for convention lang
-5. check if may error, send 500
-6. check if may rows `if(rows)` send mo yung rows
-7. module.exports = { } mo lahat 
-
 ## ROUTER ng Patient (router.route('./api/table/').get().post() = if want mo mag one line)
 1. create a routes folder
 2. create a patients.js inside
 3. require express
 4. const router = express.Router()
 5. require the controller
-6. router.get('/', createPatient)
+6. router.post('/', createPatient)
 7. router.get('/', getAllPatients)
-8. router.get('/:id', updatePatient)
+8. router.put('/:id', updatePatient)
 9. router.get('/:id', getPatient)
-10. router.get('/:id', deletePatient)
+10. router.delete('/:id', deletePatient)
 11. module.exports = router
-12. declare a variable in `app.js` requiring the router
+12. declare a variable in `app.js` requiring the router: somethingRoutes
 13. then app.use(`'/api/patients', routerVariable`) as middleware
 
 ---
@@ -122,9 +127,91 @@
 8. if none, return all rows, data:rows
 9. module.exports
 
+## REGISTER (Auth Controller)
+1. require the database store to { db }
+2. require bcrypt
+3. create register = (req, res) => {}
+4. const { username, password } from req.body
+5. validate if none 400, they're both required
+6. bcrypt.hash(password, 10, (err, hash)) => {}
+7. validate error, if there is return 500
+8. create query = `INSERT INTO users (username, password_hash) VALUES (?, ?)`
+9. create params = [username, hash]
+10. db.run(query, params, function(err) {})
+11. validate error, if there is return 500
+12. then res.status(201)
+13. module.exports
 
+## LOGIN (Auth Controller)
+1. require the database store to { db }
+2. require bcrypt
+3. create login = (req, res) => {}
+4. const { username, password } from req.body
+5. validate if none 400, they're both required
+6. create query = `SELECT * FROM users WHERE username = ?`
+7. create params = `[username]`
+8. db.get(query, params, (err, user) => {})
+9. validate error, if there is return 500
+10. validate if there is no user, return 401, the username or password must be invalid
+11. if user was found, bcrypt.compare(password, user.password_hash, (err, result) => {})
+12. validate error, if there is return 500
+13. validate if there is result, if there is return 200, login was successful
+14. else return 401, invalid username or password
+
+## AUTH (Login) ROUTES
+1. require express
+2. declare router = express.Router()
+3. require loginController
+4. router.post('/register', authController.register)
+5. router.post('/login', authController.login)
+6. module.exports = router
+7. add in app.js: app.use('/api/auth', authRoutes);
+
+## LOGIN AUTH API (PUBLIC) Auth
+1. export async function loginUser(credentials){}
+2. const response = await fetch(api link) {}
+3. method is POST, headers are 'Content-Type': 'application/json', then JSON.stringify(credentials)
+4. check if response.ok is not true, throw new Error(invalid username or password)
+5. store result = await response.json()
+6. return result
+
+## LOGIN FORM EVENTLISTENER (PUBLIC) Auth
+1. Add an event listener to your login form with submit event
+2. create credentials object = {username: usernameInputEl.value, password: passwordInputEl.value}
+3. create try {} catch(err) {}
+4. inside try, await authApi.loginUser(credentials)
+5. sessionStorage.setItem('isLoggedIn', 'true')
+6. window.location.href = 'dashboard.html'
+
+## SEARCH A TABLE (CONTROLLER)
+1. create a searchSomething variable = (req, res) => {}
+2. const searchStr = req.query.name
+3. if(!searchStr) return res.status(200).json({success:true,data:[]})
+4. const query = `SELECT * FROM patients WHERE name LIKE ?`
+5. const params = [`%${searchStr}%`]
+6. create db.all(query, params, (err, rows) => {})
+7. validate error, if there is return 500
+8. outside, res.status(200)
+9. add in your patients router: router.get('/search', patientController.searchPatient)
+
+## SEARCH A TABLE (PUBLIC) API
+1. export async function searchSomething(searchStr) {}
+2. const response = await fetch(`/api/patients/search?name=${encodeURIComponent(searchStr)}`)
+3. if(!response.ok) throw new Error('Failed to search')
+4. const result = await response.json()
+5. if(!result.success) throw new Error(result.data)
+6. return result.data
+
+## SEARCH A TABLE (PUBLIC)
+1. add an `input` eventlistener to the input box element
+2. add an async callback
+3. add a try{} catch(err) {}
+4. const patients = await patientApi.searchPatients(searchPatientEl.value)
+5. if (patients.length === 0) loadPatients, then return
+6. renderPatients(data:patients, container:patientListContainer)
 
 ---------------------------------------------------------
+
 
 # FRONTEND
 
@@ -458,7 +545,7 @@
     });
     ```
 
-## DISPLAYING DATA
+## DISPLAYING DATA (NOT UPDATED)
 1. HTML: Inside main-container, below `<header>`, paste:
     ```html
     <section class="content-card">
@@ -595,7 +682,7 @@
     }
     ```
 
-## DISPLAYING DATA PT.2 VIA MODAL & CARDS
+## DISPLAYING DATA PT.2 VIA MODAL & CARDS (NOT UPDATED)
 1. HTML: Add consultations modal outside app-container
     ```html
 
