@@ -427,17 +427,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if(target.classList.contains('yes-btn')) {
                     choice = true
+                    confirmationModal.style.display = 'none'
                 }
 
                 if(target.classList.contains('cancel-btn')) {
                     choice = false
-                }
-
-                if(target.classList.contains('close-btn')) {
                     confirmationModal.style.display = 'none'
                 }
 
-                confirmationModal.style.display = 'none'
+                if(target.classList.contains('close-btn')) {
+                    choice = false
+                    confirmationModal.style.display = 'none'
+                }
+                
                 resolve(choice)
             })
         })

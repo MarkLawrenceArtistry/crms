@@ -4,7 +4,7 @@ export const renderMedicines = (medicines, divContainer) => {
     divContainer.innerHTML = ``
 
     if(medicines.length === 0) {
-        divContainer.innerHTML = `<p>No medicines found.</p>`
+        divContainer.innerHTML = `<p style="text-align:center;">No medicines found.</p>`
         return
     }
 

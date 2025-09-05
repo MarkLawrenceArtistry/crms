@@ -13,6 +13,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: var(--font);
+    border: 1px solid red;
 }
 
 textarea {
@@ -160,6 +161,13 @@ body {
    
     display: flex; 
 }
+
+.modal button[type="submit"] {
+    background-color: #4643de;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
 /* ***************************************** */
 /*                  BUTTON                   */
 /* ***************************************** */
@@ -217,6 +225,7 @@ body {
 /*                  TABLE                   */
 /* ***************************************** */
 .table-container {
+    margin-top: 15px;
     width: 100%;
     overflow: auto;
     max-height: 70vh;
@@ -385,7 +394,9 @@ body {
 
 .small-lbl {
     font-size: 12px;
-    margin-bottom: 0;
+    margin-bottom: 3px;
+    color: #898989;
+
 }
 /* ***************************************** */
 /*             RESPONSIVENESS                */
@@ -478,6 +489,10 @@ body {
 
 #hero-img {
     height: 300px;
+}
+
+#confirmation-modal {
+    z-index: 2000;
 }
 
 

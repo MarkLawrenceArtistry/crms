@@ -3,7 +3,7 @@ export const renderConsultations = (consultations, divContainer) => {
     divContainer.innerHTML = ``
 
     if(consultations === 0) {
-        divContainer.innerHTML = `<p>No consultations found.</p>`
+        divContainer.innerHTML = `<p style="text-align:center;">No consultations found.</p>`
     }
 
     consultations.forEach(consult => {

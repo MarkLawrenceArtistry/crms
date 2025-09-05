@@ -3,7 +3,7 @@ export const renderPatients = (patients, divContainer) => {
     divContainer.innerHTML = ``
 
     if(patients.length === 0) {
-        divContainer.innerHTML = `<p>No patients found.</p>`
+        divContainer.innerHTML = `<p style="text-align:center;">No patients found.</p>`
         return
     }
 
