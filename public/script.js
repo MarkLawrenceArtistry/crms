@@ -1,7 +1,5 @@
 
 // store all functions inside a module to a single object
-import Chart from 'chart.js/auto'
-
 import * as patientApi from './js/patient-api.js'
 import * as consultationApi from './js/consultation-api.js'
 import * as medicineApi from './js/inventory-api.js'
@@ -57,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const patientListContainer = document.querySelector('#patient-list-container');
     const medicineListContainer = document.querySelector('#inventory-list-container');
     const consultationList = document.querySelector('#consultations-list');
+    const consultationsChart = document.querySelector('#consultationsChart')
 
 
     // LOGIN
@@ -172,6 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const statsResponse = await fetch('/api/dashboard/stats')
             const statsResult = await statsResponse.json()
 
+            console.log(statsResult)
+            console.log(statsResult.data)
+
             if(statsResult.success) {
                 document.querySelector('#total-patients').textContent = statsResult.data.totalPatients
                 document.querySelector('#total-consultations').textContent = statsResult.data.totalConsultations
@@ -184,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(chartResult.success) {
                 const labels = chartResult.data.map(item => item.month)
                 const data = chartResult.data.map(item => item.count)
-                renderConsultationsChart(labels, data)
+                renderConsultationsChart(labels, data, consultationsChart)
             }
         } catch(err) {
             console.error(err.message)
