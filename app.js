@@ -12,6 +12,7 @@ const app = express()
 const patientRoutes = require('./routes/patients')
 const medicineRoutes = require('./routes/medicines')
 const authRoutes = require('./routes/auth')
+const dashboardRoutes = require('./routes/dashboard')
 
 
 // middlewares
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/patients', patientRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 
 // for creating initial/default account
