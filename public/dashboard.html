@@ -37,7 +37,26 @@
             <!-- VIEW DATA VIA TABLE -->
             <section class="content-card">
                 <h1 class="main-title">Dashboard</h1>
-                <p>Key Performance Indicators and Graphs will be here soon...</p>
+
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <h2 id="total-patients">0</h2>
+                        <p>Total Patients</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h2 id="total-consultations">0</h2>
+                        <p>Total Consultations</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h2 id="low-stock-medicines">0</h2>
+                        <p>Low Stock Items</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Consultations over last 12 months</h3>
+                    <canvas id="consultationsChart"></canvas>
+                </div>
             </section>
         </main>
     </div>
