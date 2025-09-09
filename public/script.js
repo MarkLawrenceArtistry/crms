@@ -1,5 +1,7 @@
 
 // store all functions inside a module to a single object
+import Chart from 'chart.js/auto'
+
 import * as patientApi from './js/patient-api.js'
 import * as consultationApi from './js/consultation-api.js'
 import * as medicineApi from './js/inventory-api.js'
@@ -7,6 +9,7 @@ import * as authApi from './js/auth-api.js'
 
 import { renderPatients } from './js/ui-patient.js'
 import { renderMedicines } from './js/ui-inventory.js'
+import { renderConsultationsChart } from './js/ui-dashboard.js'
 import * as consultationUI from './js/ui-consultation.js'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -142,7 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // DISPLAY/RENDER DATA
-    // fetchPatients
+    
+    // Patients
     async function loadPatients() {
         try {
             const patients = await patientApi.fetchPatients()
@@ -152,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Medicines
     async function loadMedicines() {
         try {
             const medicines = await medicineApi.fetchMedicines()
@@ -160,6 +165,32 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err)
         }
     }
+
+    // Reports and KPIs
+    async function loadDashboard() {
+        try {
+            const statsResponse = await fetch('/api/dashboard/stats')
+            const statsResult = await statsResponse.json()
+
+            if(statsResult.success) {
+                document.querySelector('#total-patients').textContent = statsResult.data.totalPatients
+                document.querySelector('#total-consultations').textContent = statsResult.data.totalConsultations
+                document.querySelector('#low-stock-medicines').textContent = statsResult.data.lowStockMedicines
+            }
+
+            const chartResponse = await fetch('/api/dashboard/consultations-by-month')
+            const chartResult = await chartResponse.json()
+
+            if(chartResult.success) {
+                const labels = chartResult.data.map(item => item.month)
+                const data = chartResult.data.map(item => item.count)
+                renderConsultationsChart(labels, data)
+            }
+        } catch(err) {
+            console.error(err.message)
+        }
+    }
+
 
     
     // ADD PATIENT FORM
@@ -482,6 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(window.location.pathname.endsWith("inventory.html")){
         loadMedicines()
+    }
+
+    if (window.location.pathname.endsWith("dashboard.html")) {
+        loadDashboard();
     }
 
     // GATEKEEPER
