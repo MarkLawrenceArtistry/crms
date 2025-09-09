@@ -212,8 +212,350 @@
 
 ---------------------------------------------------------
 
+# FRONTEND (LATEST)
 
-# FRONTEND
+1. Create public folder
+2. app.use(express.static('public'))
+3. create the files, ex. index.html, style.css, script.js
+4. Copy paste this css code
+    ```css
+    .app-container {
+        display: flex;
+    }
+
+    .sidebar {
+        width: 250px;
+        background-color: #fffffe;
+        overflow-y: auto;
+        height: 100vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #f2f6ff;
+    }
+
+    .sidebar-logo {
+        max-width: 150px;
+    }
+
+    .nav-group {
+        margin-bottom: 25px;
+    }
+
+    .nav-group-title {
+        font-size: 0.75rem;
+        color: #a2a2a2;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 0 15px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        color: #3b3a3a;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .sidebar-nav .nav-link:hover {
+        background-color: #f2f6ff;
+        color: #9a9898;
+    }
+
+    .sidebar-nav .nav-link:active {
+        background-color: #e5e8f0;
+    }
+
+    .sidebar-nav .nav-link.active {
+        background-color: #f2f6ff;
+        color: #17cac4;
+        font-weight: 600;
+    }
+
+    .main-content {
+        flex-grow: 1;
+        background-color: #f2f6ff;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.6);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        z-index: 999;
+        padding: 25px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: #333;
+    }
+    ```
+5. Copy paste this html code
+    ```html
+    <div class="app-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <div class="sidebar-header">
+                    <img src="assets/logo.png" alt="Task Manager App Logo" class="sidebar-logo">
+                </div>
+                <div class="nav-group">
+                    <span class="nav-group-title">Menu</span>
+                    <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                </div>
+                <div class="nav-group">
+                    <a href="settings.html" class="nav-link">Settings</a>
+                    <a href="index.html" class="nav-link">Logout</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1 class="main-title">Task Manager App</h1>
+                <button id="add-task-btn" class="btn btn-primary">Add New Task</button>
+            </header>
+        </main>
+    </div>
+
+    <div id="add-task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-add-task-modal">&times;</span>
+            <form id="add-task-form">
+                <div>
+                    <label class="small-lbl">Description</label>
+                    <input type="text" id="task-description">
+                </div>
+                
+                <div>
+                    <label class="small-lbl">Priority</label>
+                    <input type="text" id="task-priority">
+                </div>
+
+                <div>
+                    <label class="small-lbl">Progress</label>
+                    <input type="text" id="task-progress">
+                </div>
+
+                <div>
+                    <label class="small-lbl">Status</label>
+                    <input type="text" id="task-status">
+                </div>
+
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    ```
+6. add js folder
+7. add tasks-api.js and create the export async function fetchSomething()
+8. fetch for /api/tasks and store it to response variable (validate.ok)
+9. await for response.json (validate.success, throw new error result.data)
+10. return result.data
+11. SCRIPT script.js: at the top of the file "import * as tasksApi and tasksUI from 'path'"
+12. HTML: set the type of the script file to module
+13. SCRIPT tasks-api:
+    ```js
+    export async function fetchTasks() {
+        const response = await fetch('/api/tasks')
+        if(!response.ok) {
+            throw new Error('Error fetching tasks')
+        }
+
+        const result = await response.json()
+        if(!result.success) {
+            throw new Error(result.data)
+        }
+
+        return result.data
+    }
+    ```
+14. SCRIPT tasks-ui:
+    ```js
+    export const renderTasks = (tasks, divContainer) => {
+        divContainer.innerHTML = ``
+
+        if(tasks.length === 0) {
+            divContainer.innerHTML = `<p style="text-align:center;">No tasks found.</p>`
+            return 
+        }
+
+        const table = document.createElement('table')
+        table.className = 'table tasks'
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        `
+        const tbody = table.querySelector('tbody')
+
+        tasks.forEach(task => {
+            const row = document.createElement('tr')
+            row.className = 'task-item'
+            row.dataset.id = task.id
+
+            row.innerHTML = `
+                <td>${task.id}</td>
+                <td>${task.description}</td>
+                <td>${task.priority}</td>
+                <td>${task.progress}</td>
+                <td>${task.status}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn edit-btn">Edit</button>
+                        <button class="btn done-btn">Done</button>
+                        <button class="btn delete-btn">Delete</button>
+                    </div>
+                </td>
+            `
+
+            tbody.appendChild(row)
+        });
+        
+        divContainer.appendChild(table)
+        console.log(divContainer)
+    }
+    ```
+15. SCRIPT scriptjs: fetch the container for the table
+16. SCRIPT scriptjs: create loadSomething function, GREAT now you can load your data
+    ```js
+    async function loadTasks() {
+        try {
+            const tasks = await tasksApi.fetchTasks()
+            renderTasks(tasks, taskListContainer)
+        } catch(err) {
+            console.error(err)
+        }
+    }
+    ```
+17. Change the architecture, we will have one file that is about API, and UI
+18. SCRIPT: In adding data, add event listener to your form
+    ```js
+    if(addTaskForm) {
+            addTaskForm.addEventListener('submit', async (e) => {
+                e.preventDefault()
+
+                const taskInfo = {
+                    description: document.querySelector('#task-description').value,
+                    priority: document.querySelector('#task-priority').value,
+                    progress: document.querySelector('#task-progress').value,
+                    status: document.querySelector('#task-status').value
+                }
+
+                try {
+                    await api.createTask(taskInfo)
+                    alert('Added task successfully')
+                    closeModal(addTaskModal)
+                } catch(err) {
+                    console.error(err)
+                }
+
+                loadTasks()
+            })
+        }
+    ```
+19. SCRIPT: Add event listener to your add task button and close modal button
+    ```js
+    if(addTaskBtn) {
+        addTaskBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            addTaskModal.style.display = 'flex'
+        })
+
+        closeAddTaskModal.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            closeModal(addTaskModal)
+        })
+    }
+
+    const closeModal = (modal) => {
+        modal.style.display = 'none'
+    }
+    ```
+20. SCRIPT: Add event listener to the wrapper of your table, for DELETING
+    ```js
+    if(taskListContainer) {
+        taskListContainer.addEventListener('click', async (e) => {
+            e.preventDefault()
+
+            const target = e.target
+            const taskItem = target.closest('.task-item');
+            if (!taskItem) return;
+
+            const taskID = taskItem.dataset.id
+
+            // for delete
+            if(target.classList.contains('delete-btn')) {
+                if(confirm('Are you sure you want to delete this task?')) {
+                    try {
+                        await api.deleteTask(taskID)
+                        loadTasks()
+                    } catch(err) {
+                        console.error(err)
+                    }
+                }
+            }
+
+            // for done
+            // for edit
+        })
+    }
+    ```
+21. 
+---------------------------------------------------------
+
+# FRONTEND (OLD)
 
 1. Create public folder
 2. app.use(express.static('public'))
