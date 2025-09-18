@@ -38,7 +38,7 @@ const getAllAppointmentsFromPatient = (req, res) => {
     const { patient_id } = req.params
 
     const query = "SELECT * FROM appointments WHERE patient_id = ?"
-    const params = [id]
+    const params = [patient_id]
 
     db.get(query, params, (err, row) => {
         if(err) {
