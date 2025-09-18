@@ -80,6 +80,14 @@ const initDB = () => {
 
         // ------------------------------------------------------------ //
 
+        db.run('PRAGMA foreign_keys = ON;', (err) => {
+        if (err) {
+            console.error("ERROR: Failed to enable foreign key enforcement:", err.message);
+        } else {
+            console.log("FOREIGN KEY ENFORCEMENT is ON.");
+        }
+        });
+
         db.run(patientsQuery, (err) => {
             if(err) {
                 console.error('ERROR CREATING PATIENTS TABLE: ', err.message)

@@ -2,8 +2,7 @@ const { db } = require('../database')
 
 // for POST
 const createAppointment = (req, res) => {
-    const { patient_id } = req.params
-    const { appointment_datetime, status, reason, notes } = req.body
+    const { patient_id, appointment_datetime, status, reason, notes } = req.body
 
     const query = `INSERT INTO appointments (
                         patient_id,
@@ -19,12 +18,15 @@ const createAppointment = (req, res) => {
 
     db.run(query, params, function(err) {
         if(err){
+            if (err.message.includes('FOREIGN KEY constraint failed')) {
+                return res.status(400).json({ error: `Patient with id ${patient_id} does not exist.` });
+            }
             return res.status(500).json({success:false,data:err.message})
         }
         res.status(201).json({
             success:true,
             data:{
-                patient_id:this.patient_id,
+                id:this.lastID,
                 appointment_datetime:appointment_datetime,
                 status:status,
                 reason:reason,
