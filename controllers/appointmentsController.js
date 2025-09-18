@@ -6,13 +6,14 @@ const createAppointment = (req, res) => {
     const { appointment_datetime, status, reason, notes } = req.body
 
     const query = `INSERT INTO appointments (
+                        patient_id,
                         appointment_datetime,
                         status,
                         reason,
                         notes
                     ) 
                     
-                    VALUES (?,?,?,?)
+                    VALUES (?,?,?,?,?)
                     `
     const params = [patient_id, appointment_datetime, status, reason, notes]
 
@@ -75,11 +76,12 @@ const getAllAppointments = (req, res) => {
 const updateAppointment = (req, res) => {
     // id kasi single specific appointment
     const { id } = req.params
-    const { appointment_datetime, status, reason, notes } = req.body
+    const { patient_id, appointment_datetime, status, reason, notes } = req.body
 
     const query = `
         UPDATE appointments
         SET 
+            patient_id = COALESCE(?, patient_id),
             appointment_datetime = COALESCE(?, appointment_datetime),
             status = COALESCE(?, status),
             reason = COALESCE(?, reason),
@@ -87,7 +89,7 @@ const updateAppointment = (req, res) => {
         WHERE id = ?
     `
 
-    const params = [appointment_datetime, status, reason, notes, id]
+    const params = [patient_id, appointment_datetime, status, reason, notes, id]
 
     db.run(query, params, function(err) {
         if(err) {

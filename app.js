@@ -13,6 +13,7 @@ const patientRoutes = require('./routes/patients')
 const medicineRoutes = require('./routes/medicines')
 const authRoutes = require('./routes/auth')
 const dashboardRoutes = require('./routes/dashboard')
+const appointmentRoutes = require('./routes/appointments')
 
 
 // middlewares
@@ -23,6 +24,7 @@ app.use('/api/patients', patientRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 
 // for creating initial/default account
