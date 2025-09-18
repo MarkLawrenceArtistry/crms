@@ -66,6 +66,18 @@ const initDB = () => {
             )
         `;
 
+        const appointmentsQuery = `
+            CREATE TABLE IF NOT EXISTS appointments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL,
+                appointment_datetime TEXT NOT NULL,
+                status TEXT NOT NULL,
+                reason TEXT,
+                notes TEXT,
+                FOREIGN KEY (patient_id) REFERENCES patients (id) ON DELETE CASCADE
+            )
+        `
+
         // ------------------------------------------------------------ //
 
         db.run(patientsQuery, (err) => {
@@ -89,6 +101,14 @@ const initDB = () => {
                 console.error('ERROR CREATING USERS TABLE: ', err.message)
             } else {
                 console.log('USERS TABLE CREATED/EXISTS.')
+            }
+        })
+
+        db.run(appointmentsQuery, (err) => {
+            if(err) {
+                console.error('ERROR CREATING APPOINTMENTS TABLE: ', err.message)
+            } else {
+                console.log('APPOINTMENTS TABLE CREATED/EXISTS.')
             }
         })
     })
