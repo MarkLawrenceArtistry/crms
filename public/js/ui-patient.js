@@ -12,6 +12,7 @@ export const renderPatients = (patients, divContainer) => {
     table.innerHTML = `
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Date of Birth</th>
                 <th>Actions</th>
@@ -27,11 +28,11 @@ export const renderPatients = (patients, divContainer) => {
         row.dataset.id = patient.id;
         
         row.innerHTML = `
+            <td>${patient.id}</td>
             <td>${patient.name}</td>
             <td>${new Date(patient.dob).toLocaleDateString()}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn view-btn">View</button>
                     <button class="btn edit-btn">Edit</button>
                     <button class="btn delete-btn">Delete</button>
                 </div>

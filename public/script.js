@@ -1,14 +1,11 @@
 
 // store all functions inside a module to a single object
 import * as patientApi from './js/patient-api.js'
-import * as consultationApi from './js/consultation-api.js'
 import * as medicineApi from './js/inventory-api.js'
 import * as authApi from './js/auth-api.js'
 
 import { renderPatients } from './js/ui-patient.js'
 import { renderMedicines } from './js/ui-inventory.js'
-import { renderConsultationsChart } from './js/ui-dashboard.js'
-import * as consultationUI from './js/ui-consultation.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     let currentPatientId = null;
@@ -33,13 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const updatePatientModal = document.querySelector('#update-patient-modal')
 
 
-    // CONSULTATIONS
-    const consultationsModal = document.querySelector('#consultations-modal');
-    const consultationHeader = document.querySelector('#consultation-header');
-    const closeConsultationsModalBtn = document.querySelector('#close-consultations-modal');
-    const addConsultationForm = document.querySelector('#add-consultation-form');
-
-
     // MEDICINES
     const addMedicineBtn = document.querySelector('#add-medicine-btn');
     const addMedicineForm = document.querySelector('#add-medicine-form');
@@ -54,8 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // CONTAINERS
     const patientListContainer = document.querySelector('#patient-list-container');
     const medicineListContainer = document.querySelector('#inventory-list-container');
-    const consultationList = document.querySelector('#consultations-list');
-    const consultationsChart = document.querySelector('#consultationsChart')
 
 
     // LOGIN
@@ -106,12 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeMedicineUpdateModalBtn.addEventListener('click', () => {
             updateMedicineModal.style.display = "none";
         })
-    }
-
-    if(closeConsultationsModalBtn) {
-        closeConsultationsModalBtn.addEventListener('click', () => {
-            consultationsModal.style.display = 'none';
-        }); 
     }
 
 
@@ -172,21 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const statsResult = await statsResponse.json()
 
             console.log(statsResult)
-            console.log(statsResult.data)
+            console.log(statsResponse)
 
             if(statsResult.success) {
                 document.querySelector('#total-patients').textContent = statsResult.data.totalPatients
-                document.querySelector('#total-consultations').textContent = statsResult.data.totalConsultations
                 document.querySelector('#low-stock-medicines').textContent = statsResult.data.lowStockMedicines
-            }
-
-            const chartResponse = await fetch('/api/dashboard/consultations-by-month')
-            const chartResult = await chartResponse.json()
-
-            if(chartResult.success) {
-                const labels = chartResult.data.map(item => item.month)
-                const data = chartResult.data.map(item => item.count)
-                renderConsultationsChart(labels, data, consultationsChart)
             }
         } catch(err) {
             console.error(err.message)
@@ -246,20 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error(err);
                 }
             }
-
-            // VIEW
-            if (target.classList.contains('view-btn')) {
-                try {
-                    currentPatientId = patientId;
-                    const patientName = patientItem.querySelector('td:first-child').textContent;
-                    const consultations = await consultationApi.fetchConsultations(patientId);
-                    
-                    consultationUI.renderConsultations(consultations, consultationList);
-                    consultationUI.showConsultationsModal(consultationsModal, consultationHeader, patientName);
-                } catch (err) {
-                    console.error(err);
-                }
-            }
         });
     }
     if(searchPatientEl) {
@@ -294,31 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 updatePatientForm.reset()
                 updatePatientModal.style.display = "none"
                 loadPatients();
-            } catch (err) {
-                console.error(err);
-            }
-        })
-    }
-
-
-    // ADD CONSULTATION
-    if(addConsultationForm) {
-        addConsultationForm.addEventListener('submit', async (event) => {
-            event.preventDefault()
-
-            const consultationData = {
-                complaint: document.querySelector('#consultation-complaint').value,
-                diagnosis: document.querySelector('#consultation-diagnosis').value,
-                treatment: document.querySelector('#consultation-treatment').value,
-                consultation_date: document.querySelector('#consultation-date').value
-            }
-            
-            try {
-                await consultationApi.addConsultation(currentPatientId, consultationData);
-                consultationUI.clearConsultationForm(addConsultationForm);
-                
-                const consultations = await consultationApi.fetchConsultations(currentPatientId);
-                consultationUI.renderConsultations(consultations, consultationList);
             } catch (err) {
                 console.error(err);
             }

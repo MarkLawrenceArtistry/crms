@@ -49,18 +49,6 @@ const initDB = () => {
             )
         `;
 
-        const consultationsQuery = `
-            CREATE TABLE IF NOT EXISTS consultations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                patient_id INTEGER NOT NULL,
-                complaint TEXT NOT NULL,
-                diagnosis TEXT,
-                treatment TEXT,
-                consultation_date TEXT NOT NULL,
-                FOREIGN KEY (patient_id) REFERENCES patients (id) ON DELETE CASCADE
-            )
-        `;
-
         const medicinesQuery = `
             CREATE TABLE IF NOT EXISTS medicines (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -87,14 +75,6 @@ const initDB = () => {
                 console.log('PATIENTS TABLE CREATED/EXISTS.')
             }
         });
-
-        db.run(consultationsQuery, (err) => {
-            if(err) {
-                console.error('ERROR CREATING CONSULTATIONS TABLE: ', err.message)
-            } else {
-                console.log('CONSULTATIONS TABLE CREATED/EXISTS.')
-            }
-        })
 
         db.run(medicinesQuery, (err) => {
             if(err) {

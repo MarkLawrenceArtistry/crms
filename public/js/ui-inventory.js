@@ -13,6 +13,7 @@ export const renderMedicines = (medicines, divContainer) => {
     table.innerHTML = `
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Description</th>
@@ -29,6 +30,7 @@ export const renderMedicines = (medicines, divContainer) => {
         row.dataset.id = medicine.id;
         
         row.innerHTML = `
+            <td>${medicine.id}</td>
             <td>${medicine.name}</td>
             <td>${medicine.quantity}</td>
             <td>${medicine.description}</td>
